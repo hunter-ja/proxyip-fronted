@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.proxyip.fronted.dao.ProxyMapper">
+  <resultMap id="BaseResultMap" type="com.proxyip.fronted.model.Proxy">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="port" jdbcType="INTEGER" property="port" />
+    <result column="scheme" jdbcType="VARCHAR" property="scheme" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="last_check_time" jdbcType="TIMESTAMP" property="lastCheckTime" />
+    <result column="disconnet_times" jdbcType="INTEGER" property="disconnetTimes" />
+    <result column="connect_times" jdbcType="INTEGER" property="connectTimes" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="is_deleted" jdbcType="CHAR" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ip, port, scheme, `source`, area, last_check_time, disconnet_times, connect_times, 
+    created_at, is_deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from proxy
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from proxy
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.proxyip.fronted.model.Proxy">
+    insert into proxy (id, ip, port, 
+      scheme, `source`, area, 
+      last_check_time, disconnet_times, connect_times, 
+      created_at, is_deleted)
+    values (#{id,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, 
+      #{scheme,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{lastCheckTime,jdbcType=TIMESTAMP}, #{disconnetTimes,jdbcType=INTEGER}, #{connectTimes,jdbcType=INTEGER}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.proxyip.fronted.model.Proxy">
+    insert into proxy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="port != null">
+        port,
+      </if>
+      <if test="scheme != null">
+        scheme,
+      </if>
+      <if test="source != null">
+        `source`,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="lastCheckTime != null">
+        last_check_time,
+      </if>
+      <if test="disconnetTimes != null">
+        disconnet_times,
+      </if>
+      <if test="connectTimes != null">
+        connect_times,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        #{port,jdbcType=INTEGER},
+      </if>
+      <if test="scheme != null">
+        #{scheme,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="lastCheckTime != null">
+        #{lastCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disconnetTimes != null">
+        #{disconnetTimes,jdbcType=INTEGER},
+      </if>
+      <if test="connectTimes != null">
+        #{connectTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.proxyip.fronted.model.Proxy">
+    update proxy
+    <set>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        port = #{port,jdbcType=INTEGER},
+      </if>
+      <if test="scheme != null">
+        scheme = #{scheme,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        `source` = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="lastCheckTime != null">
+        last_check_time = #{lastCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disconnetTimes != null">
+        disconnet_times = #{disconnetTimes,jdbcType=INTEGER},
+      </if>
+      <if test="connectTimes != null">
+        connect_times = #{connectTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.proxyip.fronted.model.Proxy">
+    update proxy
+    set ip = #{ip,jdbcType=VARCHAR},
+      port = #{port,jdbcType=INTEGER},
+      scheme = #{scheme,jdbcType=VARCHAR},
+      `source` = #{source,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      last_check_time = #{lastCheckTime,jdbcType=TIMESTAMP},
+      disconnet_times = #{disconnetTimes,jdbcType=INTEGER},
+      connect_times = #{connectTimes,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
