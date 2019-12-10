@@ -19,7 +19,8 @@ public class WebAppConfigure implements WebMvcConfigurer {
     }
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("claspath:/static/");
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("claspath:/static/layui/");
     }
 
 
