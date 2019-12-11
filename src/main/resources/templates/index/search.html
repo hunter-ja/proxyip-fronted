@@ -8,11 +8,12 @@
                 <legend>搜索神马玩意儿</legend>
             </fieldset>
             <div class="layui-col-xs6 layui-col-md12">
-                <form class="layui-form layui-form-pane" action="">
+                <form class="layui-form layui-form-pane" action="" onsubmit="return false;">
                     <div class="layui-form-item">
                         <label class="layui-form-label">输入关键字</label>
                         <div class="layui-input-block">
-                            <input type="text" name="keyword" autocomplete="off" placeholder="目前支持协议和地区" class="layui-input">
+                            <input type="text" name="keyword" style=" max-width: 991px; float: left" autocomplete="off" placeholder="目前支持协议和地区" class="layui-input">
+                            <button type="submit" style="width: 100px; float: left; margin-left: -1px" id="search" class="layui-btn" lay-submit="" lay-filter="demo1">搜索</button>
                         </div>
                     </div>
                 </form>
@@ -24,7 +25,14 @@
             layui.use('table', function(){
                 var table = layui.table;
                 var $ = layui.$;
-                table.render({
+                $("#search").click(function () {
+                    var keyword = $("input[name='keyword']").val();
+                    tableIns.reload({
+                        where: {keyword: keyword}
+                    });
+                    return false;
+                })
+                var tableIns = table.render({
                     elem: '#index-table'
                     ,url:'/api/search'
                     ,limit: 15

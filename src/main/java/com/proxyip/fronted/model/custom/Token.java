@@ -26,6 +26,8 @@ public class Token {
 
     private List<String> tokens;
 
+    private String randomString = Utils.generateRandomStr(8);
+
     public List<String> getTokens() {
         return tokens;
     }
@@ -64,6 +66,14 @@ public class Token {
 
     public void setFirst(boolean first) {
         isFirst = first;
+    }
+
+    public String getRandomString() {
+        return randomString;
+    }
+
+    public void setRandomString(String randomString) {
+        this.randomString = randomString;
     }
 
     /**

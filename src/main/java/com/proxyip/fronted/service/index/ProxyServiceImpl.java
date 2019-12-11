@@ -6,6 +6,7 @@ import com.proxyip.fronted.service.model.ServiceModel;
 import com.proxyip.fronted.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -57,6 +58,9 @@ public class ProxyServiceImpl implements ProxyServiceI {
         }
         if(limitNum > maxLimit) {
             return serviceModel.error("limit错误");
+        }
+        if(StringUtils.isEmpty(keyword)) {
+            keyword = "";
         }
         int offset = Utils.getOffset(pageNum, limitNum);
         List<ProxyExtends> list = proxyMapper.search(offset, limitNum, keyword);
