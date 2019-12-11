@@ -2,6 +2,7 @@ package com.proxyip.fronted.model.custom;
 
 import com.google.gson.Gson;
 import com.proxyip.fronted.utils.AES;
+import com.proxyip.fronted.utils.Utils;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -16,6 +17,10 @@ public class Token {
     private String ip;
 
     private Date expireDate;
+
+    private String preToken;
+
+    private boolean isFirst;
 
     public String getIp() {
         return ip;
@@ -33,18 +38,40 @@ public class Token {
         this.expireDate = expireDate;
     }
 
+    public String getPreToken() {
+        return preToken;
+    }
+
+    public void setPreToken(String preToken) {
+        this.preToken = preToken;
+    }
+
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
+
     /**
      * 生成请求token
      * @param ip
      * @return
      */
-    public static String toToken(String ip) {
+    public static String toToken(String ip, String tokenStr) {
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.SECOND, 30);
+        nowTime.add(Calendar.MINUTE, 3);
         Token token = new Token();
         token.setIp(ip);
         token.setExpireDate(nowTime.getTime());
-        Gson gson = new Gson();
+        if(StringUtils.isEmpty(tokenStr)) {
+            token.setFirst(true);
+        }else{
+            token.setPreToken(tokenStr);
+            token.setFirst(false);
+        }
+        Gson gson = Utils.getGson();
         try {
             return URLEncoder.encode(Objects.requireNonNull(AES.encryptBase64(gson.toJson(token))), "utf8");
         } catch (UnsupportedEncodingException e) {
@@ -57,7 +84,7 @@ public class Token {
      * @param token
      * @return
      */
-    public static boolean isValid(String token, String ip) {
+    public static boolean isValid(String token, String ip, String preToken) {
         try {
             if(StringUtils.isEmpty(token)) {
                 return false;
@@ -72,7 +99,15 @@ public class Token {
             if(tokenModel == null) {
                 return false;
             }
-            return tokenModel.getExpireDate().after(new Date()) && ip.equals(tokenModel.getIp());
+            if(tokenModel.isFirst) {
+                return tokenModel.getExpireDate().after(new Date())
+                        && ip.equals(tokenModel.getIp());
+            }else{
+                return tokenModel.getExpireDate().after(new Date())
+                        && ip.equals(tokenModel.getIp())
+                        && preToken.equals(tokenModel.getPreToken());
+            }
+
         }catch (Exception e) {
             return false;
         }

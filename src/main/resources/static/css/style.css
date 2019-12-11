@@ -29,3 +29,8 @@
     color: #666666;
     margin: 0 auto;
 }
+.main{
+    max-width: 1200px;
+    min-width: 320px;
+    margin: 40px auto;
+}

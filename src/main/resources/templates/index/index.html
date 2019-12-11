@@ -3,8 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
     <body>
-        <div class="row" layout:fragment="content">
-            <table class="layui-hide" id="index-table"></table>
+        <div class="main" layout:fragment="content">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>免费代理列表</legend>
+            </fieldset>
+            <table id="index-table"></table>
         </div>
         <script layout:fragment="customscript">
             layui.use('table', function(){
@@ -15,23 +18,25 @@
                     ,url:'/api/index'
                     ,limit: 30
                     ,method: 'post'
-                    ,headers: {token: '[[${token}]]'}
-                    ,width:"1200px"
+                    ,where: {token: '[[${token}]]', 'pre-token': ""}
+                    ,cellMinWidth: 100
                     ,cols: [
                         [
-                        {field:'id', width:80, title: 'ID', sort: true}
-                        ,{field:'username', width:80, title: '用户名'}
-                        ,{field:'sex', width:80, title: '性别', sort: true}
-                        ,{field:'city', width:80, title: '城市'}
-                        ,{field:'sign', title: '签名', minWidth: 150}
-                        ,{field:'experience', width:80, title: '积分', sort: true}
-                        ,{field:'score', width:80, title: '评分', sort: true}
-                        ,{field:'classify', width:80, title: '职业'}
-                        ,{field:'wealth', width:135, title: '财富', sort: true}
+                        {field:'ip', width:180, title: 'IP'}
+                        ,{field:'port', width:100, title: '端口'}
+                        ,{field:'scheme', width:80, title: '协议'}
+                        ,{field:'area', minWidth:200, maxWidth:350, title: '地区'}
+                        ,{field:'lastCheckTime', width:200, title: '最后检测时间'}
+                        ,{field:'createdAt', title: '出库时间'}
                     ]
                     ]
                     ,page: true
-                    ,totalRow: true
+                    ,done:function(data) {
+                        if(data.token !== undefined && data.token !== "" && data.token != null) {
+                            var preToken = this.where.token;
+                            this.where = {token: data.token, 'pre-token': preToken};
+                        }
+                    }
                 });
             });
         </script>

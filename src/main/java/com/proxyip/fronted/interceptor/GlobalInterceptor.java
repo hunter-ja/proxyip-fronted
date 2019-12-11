@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Component
 public class GlobalInterceptor implements HandlerInterceptor {
@@ -16,7 +15,8 @@ public class GlobalInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
-            modelAndView.addObject("token", Token.toToken(request.getRemoteAddr()));
+            modelAndView.addObject("token",
+                    Token.toToken(request.getRemoteAddr(), request.getHeader("token")));
         }
     }
 
