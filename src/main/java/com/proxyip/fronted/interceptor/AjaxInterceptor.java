@@ -15,7 +15,7 @@ import java.io.IOException;
 public class AjaxInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if(!Token.isValid(request.getParameter("token"))) {
+        if(!Token.isValid(request.getHeader("token"), Utils.getIp(request))) {
             try {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
             } catch (IOException e) {
@@ -25,15 +25,4 @@ public class AjaxInterceptor implements HandlerInterceptor {
         }
         return true;
     }
-
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-                           @Nullable ModelAndView modelAndView) throws Exception {
-        if (modelAndView != null) {
-            modelAndView.addObject("token", Token.toToken(request.getRemoteAddr()));
-        }
-    }
-
-
-
-
 }

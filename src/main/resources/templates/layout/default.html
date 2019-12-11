@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+        <title>免费代理</title>
+        <link href="/layui/css/layui.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    </head>
+    <body>
+        <div class="layui-col-xs6 layui-col-md12 nav">
+            <ul class="layui-nav sub-nav" style="padding: 0">
+                <li class="layui-nav-item logo" style="padding: 0 80px 0 0;"><a href="">LOGO</a></li>
+                <li class="layui-nav-item layui-this"><a href="">首页</a></li>
+                <li class="layui-nav-item"><a href="">搜索</a></li>
+                <li class="layui-nav-item"><a href="">最新入库</a></li>
+                <li class="layui-nav-item"><a href="">稳得一匹</a></li>
+                <li class="layui-nav-item"><a href="javascript:alert('暂未开放');">API接口</a></li>
+                <li class="layui-nav-item"><a href="javascript:alert('暂未开放');">社区</a></li>
+            </ul>
+        </div>
+        <section layout:fragment="content">
+
+        </section>
+        <div class="layui-clear"></div>
+        <div class="copyright">
+            <p>© 2019  此处应有版权</p>
+        </div>
+        <script src="/layui/layui.js"></script>
+        <script layout:fragment="customscript"></script>
+    </body>
+</html>

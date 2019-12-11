@@ -4,8 +4,12 @@ import com.google.gson.Gson;
 import com.proxyip.fronted.utils.AES;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class Token {
 
@@ -41,7 +45,11 @@ public class Token {
         token.setIp(ip);
         token.setExpireDate(nowTime.getTime());
         Gson gson = new Gson();
-        return AES.encryptBase64(gson.toJson(token));
+        try {
+            return URLEncoder.encode(Objects.requireNonNull(AES.encryptBase64(gson.toJson(token))), "utf8");
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
     }
 
     /**
@@ -49,11 +57,12 @@ public class Token {
      * @param token
      * @return
      */
-    public static boolean isValid(String token) {
+    public static boolean isValid(String token, String ip) {
         try {
             if(StringUtils.isEmpty(token)) {
                 return false;
             }
+            token = URLDecoder.decode(token, "utf8");
             String json = AES.decryptBase64(token);
             if(StringUtils.isEmpty(json)) {
                 return false;
@@ -63,7 +72,7 @@ public class Token {
             if(tokenModel == null) {
                 return false;
             }
-            return tokenModel.getExpireDate().after(new Date());
+            return tokenModel.getExpireDate().after(new Date()) && ip.equals(tokenModel.getIp());
         }catch (Exception e) {
             return false;
         }

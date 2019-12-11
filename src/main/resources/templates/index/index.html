@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>免费代理</title>
-</head>
-<body>
-
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+    <body>
+        <div class="row" layout:fragment="content">
+            <table class="layui-hide" id="index-table"></table>
+        </div>
+        <script layout:fragment="customscript">
+            layui.use('table', function(){
+                var table = layui.table;
+                var $ = layui.$;
+                table.render({
+                    elem: '#index-table'
+                    ,url:'/api/index'
+                    ,limit: 30
+                    ,method: 'post'
+                    ,headers: {token: '[[${token}]]'}
+                    ,width:"1200px"
+                    ,cols: [
+                        [
+                        {field:'id', width:80, title: 'ID', sort: true}
+                        ,{field:'username', width:80, title: '用户名'}
+                        ,{field:'sex', width:80, title: '性别', sort: true}
+                        ,{field:'city', width:80, title: '城市'}
+                        ,{field:'sign', title: '签名', minWidth: 150}
+                        ,{field:'experience', width:80, title: '积分', sort: true}
+                        ,{field:'score', width:80, title: '评分', sort: true}
+                        ,{field:'classify', width:80, title: '职业'}
+                        ,{field:'wealth', width:135, title: '财富', sort: true}
+                    ]
+                    ]
+                    ,page: true
+                    ,totalRow: true
+                });
+            });
+        </script>
+    </body>
 </html>
