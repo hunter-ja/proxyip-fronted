@@ -30,5 +30,29 @@
     <select id="count" resultType="java.lang.Integer">
         select count(*) from proxy where last_check_time IS NOT NULL and is_deleted = 'N'
     </select>
+    <select id="search" resultMap="ConnectedRate">
+    SELECT
+        port,
+        scheme,
+        last_check_time,
+        area,
+        created_at,
+        ip, (
+            connect_times / (
+                connect_times + disconnet_times
+            )
+        ) connected_rate
+    FROM
+        proxy
+    WHERE
+        proxy.last_check_time IS NOT NULL
+    AND is_deleted = 'N'
+    and (scheme like concat('%',#{keyword},'%') or area like concat('%',#{keyword},'%'))
+    ORDER BY
+        last_check_time DESC,
+        connected_rate DESC,
+        connect_times DESC
+    limit #{offset} , #{limit}
+    </select>
 
 </mapper>

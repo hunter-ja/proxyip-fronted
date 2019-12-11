@@ -31,6 +31,19 @@ public class ApiController {
         }
     }
 
+    @PostMapping("search")
+    public String search(HttpServletRequest request) {
+        String page = request.getParameter("page");
+        String keyword = request.getParameter("keyword");
+        String limit = request.getParameter("limit");
+        ServiceModel serviceModel = proxyService.search(keyword, page, limit);
+        if(serviceModel.isSuccess()) {
+            return ApiResponse.success(serviceModel.getData(), proxyService.count());
+        }else{
+            return ApiResponse.error(serviceModel.getMessage());
+        }
+    }
+
 
 
 }

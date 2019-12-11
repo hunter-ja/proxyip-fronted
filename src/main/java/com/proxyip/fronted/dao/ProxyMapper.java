@@ -22,4 +22,6 @@ public interface ProxyMapper {
     List<ProxyExtends> getList(@Param("offset") int offset, @Param("limit") int limit);
 
     int count();
+
+    List<ProxyExtends> search(@Param("offset") int offset, @Param("limit") int limit, @Param("keyword") String keyword);
 }

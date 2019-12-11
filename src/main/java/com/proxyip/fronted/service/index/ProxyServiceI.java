@@ -9,6 +9,10 @@ public interface ProxyServiceI {
 
     ServiceModel<List<ProxyExtends>> getList(String page, String limit);
 
+    ServiceModel<List<ProxyExtends>> search(String keyword, String page, String limit);
+
+    int countByKeyword();
+
     int count();
 
 }

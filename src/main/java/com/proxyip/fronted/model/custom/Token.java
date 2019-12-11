@@ -2,6 +2,7 @@ package com.proxyip.fronted.model.custom;
 
 import com.google.gson.Gson;
 import com.proxyip.fronted.utils.AES;
+import com.proxyip.fronted.utils.SpringUtil;
 import com.proxyip.fronted.utils.Utils;
 import org.springframework.util.StringUtils;
 
@@ -10,6 +11,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Token {
@@ -21,6 +23,16 @@ public class Token {
     private String preToken;
 
     private boolean isFirst;
+
+    private List<String> tokens;
+
+    public List<String> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<String> tokens) {
+        this.tokens = tokens;
+    }
 
     public String getIp() {
         return ip;
@@ -89,7 +101,11 @@ public class Token {
             if(StringUtils.isEmpty(token)) {
                 return false;
             }
+            Token tokenList = SpringUtil.getBean(Token.class);
             token = URLDecoder.decode(token, "utf8");
+            if(tokenList.getTokens().contains(token)) {
+                return false;
+            }
             String json = AES.decryptBase64(token);
             if(StringUtils.isEmpty(json)) {
                 return false;
@@ -100,15 +116,35 @@ public class Token {
                 return false;
             }
             if(tokenModel.isFirst) {
-                return tokenModel.getExpireDate().after(new Date())
-                        && ip.equals(tokenModel.getIp());
+                if(tokenModel.getExpireDate().after(new Date())
+                        && ip.equals(tokenModel.getIp())) {
+                    tokenList.getTokens().add(token);
+                    return true;
+                }
             }else{
-                return tokenModel.getExpireDate().after(new Date())
+                if(tokenModel.getExpireDate().after(new Date())
                         && ip.equals(tokenModel.getIp())
-                        && preToken.equals(tokenModel.getPreToken());
+                        && preToken.equals(tokenModel.getPreToken())
+                        && isValid(tokenModel.getPreToken(), ip)) {
+                    tokenList.getTokens().add(token);
+                    return true;
+                }
             }
-
+            return false;
         }catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static boolean isValid(String token, String ip) {
+        try {
+            token = URLDecoder.decode(token, "utf8");
+            String json = AES.decryptBase64(token);
+            Gson gson = new Gson();
+            Token tokenModel = gson.fromJson(json, Token.class);
+            return tokenModel.getExpireDate().after(new Date())
+                    && ip.equals(tokenModel.getIp());
+        } catch (UnsupportedEncodingException e) {
             return false;
         }
     }

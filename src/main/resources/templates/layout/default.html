@@ -11,13 +11,13 @@
     <body>
         <div class="layui-col-xs6 layui-col-md12 nav">
             <ul class="layui-nav sub-nav" style="padding: 0">
-                <li class="layui-nav-item logo" style="padding: 0 80px 0 0;"><a href="">LOGO</a></li>
-                <li class="layui-nav-item layui-this"><a href="">首页</a></li>
-                <li class="layui-nav-item"><a href="">搜索</a></li>
+                <li class="layui-nav-item logo" style="padding: 0 80px 0 0;"><a href="">THIS IS LOGO</a></li>
+                <li th:class="${nav == 'index' ? 'layui-nav-item layui-this' : 'layui-nav-item'}"><a href="/">首页</a></li>
+                <li th:class="${nav == 'search' ? 'layui-nav-item layui-this' : 'layui-nav-item'}"><a href="/search">搜索</a></li>
                 <li class="layui-nav-item"><a href="">最新入库</a></li>
                 <li class="layui-nav-item"><a href="">稳得一匹</a></li>
-                <li class="layui-nav-item"><a href="javascript:alert('暂未开放');">API接口</a></li>
-                <li class="layui-nav-item"><a href="javascript:alert('暂未开放');">社区</a></li>
+                <li class="layui-nav-item"><a href="javascript:alert('服务器资源太宝贵，暂不开放');">代理检测</a></li>
+                <li class="layui-nav-item"><a href="javascript:alert('服务器资源太宝贵，暂不开放');">API接口</a></li>
             </ul>
         </div>
         <div class="layui-clear"></div>
