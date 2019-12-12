@@ -68,8 +68,8 @@ public class ProxyServiceImpl implements ProxyServiceI {
     }
 
     @Override
-    public int countByKeyword() {
-        return 0;
+    public int countByKeyword(String keyword) {
+        return proxyMapper.countByKeyword(keyword);
     }
 
 

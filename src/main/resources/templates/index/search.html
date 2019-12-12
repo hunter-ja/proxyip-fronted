@@ -12,7 +12,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">输入关键字</label>
                         <div class="layui-input-block">
-                            <input type="text" name="keyword" style=" max-width: 991px; float: left" autocomplete="off" placeholder="目前支持协议和地区" class="layui-input">
+                            <input type="text" name="keyword" style=" max-width: 991px; float: left" autocomplete="off" placeholder="目前只支持协议和地区，别搜组合词了，不支持" class="layui-input">
                             <button type="submit" style="width: 100px; float: left; margin-left: -1px" id="search" class="layui-btn" lay-submit="" lay-filter="demo1">搜索</button>
                         </div>
                     </div>
@@ -28,16 +28,21 @@
                 $("#search").click(function () {
                     var keyword = $("input[name='keyword']").val();
                     tableIns.reload({
-                        where: {keyword: keyword}
+                        page: {
+                            curr: 1
+                        },
+                        where: {
+                            keyword: keyword
+                        }
                     });
                     return false;
-                })
+                });
                 var tableIns = table.render({
                     elem: '#index-table'
                     ,url:'/api/search'
                     ,limit: 15
                     ,method: 'post'
-                    ,where: {token: '[[${token}]]', 'pre-token': ""}
+                    ,where: {token: '[[${token}]]', pre_token: ""}
                     ,cellMinWidth: 100
                     ,limits: [10, 15]
                     ,cols: [
@@ -55,7 +60,8 @@
                     ,done:function(data) {
                         if(data.token !== undefined && data.token !== "" && data.token != null) {
                             var preToken = this.where.token;
-                            this.where = {token: data.token, 'pre-token': preToken};
+                            this.where.token = data.token;
+                            this.where.pre_token = preToken;
                         }
                     }
                 });

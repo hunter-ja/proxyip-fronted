@@ -24,4 +24,6 @@ public interface ProxyMapper {
     int count();
 
     List<ProxyExtends> search(@Param("offset") int offset, @Param("limit") int limit, @Param("keyword") String keyword);
+
+    int countByKeyword(@Param("keyword") String keyword);
 }

@@ -38,7 +38,7 @@ public class ApiController {
         String limit = request.getParameter("limit");
         ServiceModel serviceModel = proxyService.search(keyword, page, limit);
         if(serviceModel.isSuccess()) {
-            return ApiResponse.success(serviceModel.getData(), proxyService.count());
+            return ApiResponse.success(serviceModel.getData(), proxyService.countByKeyword(keyword));
         }else{
             return ApiResponse.error(serviceModel.getMessage());
         }

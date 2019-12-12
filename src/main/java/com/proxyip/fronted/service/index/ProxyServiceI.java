@@ -11,7 +11,7 @@ public interface ProxyServiceI {
 
     ServiceModel<List<ProxyExtends>> search(String keyword, String page, String limit);
 
-    int countByKeyword();
+    int countByKeyword(String keyword);
 
     int count();
 

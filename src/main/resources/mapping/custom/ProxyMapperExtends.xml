@@ -54,5 +54,8 @@
         connect_times DESC
     limit #{offset} , #{limit}
     </select>
+    <select id="countByKeyword" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from proxy where proxy.last_check_time IS NOT NULL AND is_deleted = 'N' and (scheme like concat('%',#{keyword},'%') or area like concat('%',#{keyword},'%'))
+    </select>
 
 </mapper>

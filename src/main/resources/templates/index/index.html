@@ -18,7 +18,7 @@
                     ,url:'/api/index'
                     ,limit: 15
                     ,method: 'post'
-                    ,where: {token: '[[${token}]]', 'pre-token': ""}
+                    ,where: {token: '[[${token}]]', pre_token: ""}
                     ,cellMinWidth: 100
                     ,limits: [10, 15]
                     ,cols: [
@@ -36,7 +36,8 @@
                     ,done:function(data) {
                         if(data.token !== undefined && data.token !== "" && data.token != null) {
                             var preToken = this.where.token;
-                            this.where = {token: data.token, 'pre-token': preToken};
+                            this.where.token = data.token;
+                            this.where.pre_token = preToken;
                         }
                     }
                 });

@@ -14,7 +14,7 @@ import java.io.IOException;
 public class AjaxInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if(!Token.isValid(request.getParameter("token"), Utils.getIp(request), request.getParameter("pre-token"))) {
+        if(!Token.isValid(request.getParameter("token"), Utils.getIp(request), request.getParameter("pre_token"))) {
             try {
                 response.setHeader("Content-Type", "application/json;charset=UTF-8");
                 response.getWriter().println(ApiResponse.error("Token 已失效请刷新页面"));
