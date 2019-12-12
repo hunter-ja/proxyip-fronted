@@ -15,12 +15,12 @@ public class Utils {
     }
 
     public static String getIp(HttpServletRequest request) {
-        String ip = request.getHeader("x - forwarded - for");
+        String ip = request.getHeader("x-forwarded-for");
         if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)){
-            ip = request.getHeader("Proxy - Client - IP");
+            ip = request.getHeader("Proxy-Client-IP");
         }
         if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)){
-            ip = request.getHeader("WL - Proxy - Client - IP");
+            ip = request.getHeader("WL-Proxy-Client-IP");
         }
         if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)){
             ip = request.getRemoteAddr();

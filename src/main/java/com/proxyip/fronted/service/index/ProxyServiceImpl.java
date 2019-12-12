@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProxyServiceImpl implements ProxyServiceI {
@@ -23,21 +25,26 @@ public class ProxyServiceImpl implements ProxyServiceI {
     }
 
     @Override
-    public ServiceModel<List<ProxyExtends>> getList(String page, String limit) {
+    public ServiceModel<List<ProxyExtends>> getList(String page, String limit, String desc) {
         ServiceModel<List<ProxyExtends>> serviceModel = new ServiceModel<>();
-        int pageNum;
+        int offset;
         int limitNum;
         try {
-            pageNum = Integer.parseInt(page);
-            limitNum = Integer.parseInt(limit);
-        }catch (NumberFormatException e) {
-            return serviceModel.error("页码错误");
+            Map<String, Integer> map = paramsVerification(page, limit);
+            limitNum = map.get("limitNum");
+            offset = map.get("offset");
+        }catch (IllegalArgumentException e) {
+            return serviceModel.error(e.getMessage());
         }
-        if(limitNum > maxLimit) {
-            return serviceModel.error("limit错误");
+        List<ProxyExtends> list;
+        if(StringUtils.isEmpty(desc)) {
+            desc = "default";
         }
-        int offset = Utils.getOffset(pageNum, limitNum);
-        List<ProxyExtends> list = proxyMapper.getList(offset, limitNum);
+        switch (desc) {
+            case "new" : list = proxyMapper.getNew(offset, limitNum);break;
+            case "available" : list = proxyMapper.getAvailable(offset, limitNum);break;
+            default: list = proxyMapper.getList(offset, limitNum);
+        }
         return serviceModel.success(list);
     }
 
@@ -48,30 +55,47 @@ public class ProxyServiceImpl implements ProxyServiceI {
 
     public ServiceModel<List<ProxyExtends>> search(String keyword, String page, String limit) {
         ServiceModel<List<ProxyExtends>> serviceModel = new ServiceModel<>();
-        int pageNum;
+        int offset;
         int limitNum;
         try {
-            pageNum = Integer.parseInt(page);
-            limitNum = Integer.parseInt(limit);
-        }catch (NumberFormatException e) {
-            return serviceModel.error("页码错误");
-        }
-        if(limitNum > maxLimit) {
-            return serviceModel.error("limit错误");
+            Map<String, Integer> map = paramsVerification(page, limit);
+            offset = map.get("offset");
+            limitNum = map.get("limitNum");
+        }catch (IllegalArgumentException e) {
+            return serviceModel.error(e.getMessage());
         }
         if(StringUtils.isEmpty(keyword)) {
             keyword = "";
         }
-        int offset = Utils.getOffset(pageNum, limitNum);
         List<ProxyExtends> list = proxyMapper.search(offset, limitNum, keyword);
         return serviceModel.success(list);
     }
 
     @Override
     public int countByKeyword(String keyword) {
+        if(StringUtils.isEmpty(keyword)) {
+            keyword = "";
+        }
         return proxyMapper.countByKeyword(keyword);
     }
 
-
+    private Map<String, Integer> paramsVerification(String page, String limit) {
+        Map<String, Integer> returnMap = new HashMap<>();
+        int pageNum;
+        int limitNum;
+        try {
+            pageNum = Integer.parseInt(page);
+            limitNum = Integer.parseInt(limit);
+        }catch (NumberFormatException e) {
+            throw new IllegalArgumentException("页码错误");
+        }
+        if(limitNum > maxLimit) {
+            throw new IllegalArgumentException("limit错误");
+        }
+        int offset = Utils.getOffset(pageNum, limitNum);
+        returnMap.put("offset", offset);
+        returnMap.put("limitNum", limitNum);
+        return returnMap;
+    }
 
 }

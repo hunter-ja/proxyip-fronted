@@ -16,7 +16,7 @@ public class ApiResponse {
                 ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Gson gson = Utils.getGson();
         Map<String, Object> returnMap = new HashMap<>();
-        returnMap.put("token", Token.toToken(request.getRemoteAddr(), request.getHeader("token")));
+        returnMap.put("token", Token.toToken(Utils.getIp(request), request.getParameter("token")));
         returnMap.put("code", 0);
         returnMap.put("data", data);
         returnMap.put("count", count);

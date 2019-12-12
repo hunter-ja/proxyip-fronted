@@ -57,5 +57,52 @@
     <select id="countByKeyword" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(*) from proxy where proxy.last_check_time IS NOT NULL AND is_deleted = 'N' and (scheme like concat('%',#{keyword},'%') or area like concat('%',#{keyword},'%'))
     </select>
+    <select id="getNew" resultMap="ConnectedRate">
+    SELECT
+        port,
+        scheme,
+        last_check_time,
+        area,
+        created_at,
+        ip, (
+            connect_times / (
+                connect_times + disconnet_times
+            )
+        ) connected_rate
+    FROM
+        proxy
+    WHERE
+        proxy.last_check_time IS NOT NULL
+    AND is_deleted = 'N'
+    ORDER BY
+        created_at desc,
+        last_check_time DESC,
+        connected_rate DESC,
+        connect_times DESC
+    limit #{offset} , #{limit}
+    </select>
+    <select id="getAvailable" resultMap="ConnectedRate">
+    SELECT
+        port,
+        scheme,
+        last_check_time,
+        area,
+        created_at,
+        ip, (
+            connect_times / (
+                connect_times + disconnet_times
+            )
+        ) connected_rate
+    FROM
+        proxy
+    WHERE
+        proxy.last_check_time IS NOT NULL
+    AND is_deleted = 'N'
+    ORDER BY
+        connected_rate DESC,
+        connect_times DESC,
+        last_check_time DESC
+    limit #{offset} , #{limit}
+    </select>
 
 </mapper>

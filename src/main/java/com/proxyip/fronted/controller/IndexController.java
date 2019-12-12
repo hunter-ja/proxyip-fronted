@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     @RequestMapping("/")
-    public ModelAndView test(ModelAndView modelAndView) {
+    public ModelAndView index(ModelAndView modelAndView) {
         modelAndView.addObject("nav", "index");
         modelAndView.setViewName("index/index");
         return modelAndView;
@@ -18,6 +18,20 @@ public class IndexController {
     public ModelAndView search(ModelAndView modelAndView) {
         modelAndView.addObject("nav", "search");
         modelAndView.setViewName("index/search");
+        return modelAndView;
+    }
+
+    @RequestMapping("/new")
+    public ModelAndView newList(ModelAndView modelAndView) {
+        modelAndView.addObject("nav", "new");
+        modelAndView.setViewName("index/new");
+        return modelAndView;
+    }
+
+    @RequestMapping("/available")
+    public ModelAndView available(ModelAndView modelAndView) {
+        modelAndView.addObject("nav", "available");
+        modelAndView.setViewName("index/available");
         return modelAndView;
     }
 

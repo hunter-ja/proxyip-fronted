@@ -23,7 +23,8 @@ public class ApiController {
     public String index(HttpServletRequest request) {
         String page = request.getParameter("page");
         String limit = request.getParameter("limit");
-        ServiceModel serviceModel = proxyService.getList(page, limit);
+        String desc = request.getParameter("desc");
+        ServiceModel serviceModel = proxyService.getList(page, limit, desc);
         if(serviceModel.isSuccess()) {
             return ApiResponse.success(serviceModel.getData(), proxyService.count());
         }else{

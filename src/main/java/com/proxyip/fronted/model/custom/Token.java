@@ -152,8 +152,7 @@ public class Token {
             String json = AES.decryptBase64(token);
             Gson gson = new Gson();
             Token tokenModel = gson.fromJson(json, Token.class);
-            return tokenModel.getExpireDate().after(new Date())
-                    && ip.equals(tokenModel.getIp());
+            return ip.equals(tokenModel.getIp());
         } catch (UnsupportedEncodingException e) {
             return false;
         }

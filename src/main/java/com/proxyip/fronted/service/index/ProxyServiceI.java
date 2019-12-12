@@ -7,12 +7,14 @@ import java.util.List;
 
 public interface ProxyServiceI {
 
-    ServiceModel<List<ProxyExtends>> getList(String page, String limit);
+    ServiceModel<List<ProxyExtends>> getList(String page, String limit, String desc);
 
     ServiceModel<List<ProxyExtends>> search(String keyword, String page, String limit);
 
     int countByKeyword(String keyword);
 
     int count();
+
+
 
 }

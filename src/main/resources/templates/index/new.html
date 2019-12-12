@@ -5,20 +5,20 @@
     <body>
         <div class="main" layout:fragment="content">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>免费代理列表</legend>
+                <legend>最新入库</legend>
             </fieldset>
-            <table id="index-table"></table>
+            <table id="new-table"></table>
         </div>
         <script layout:fragment="customscript">
             layui.use('table', function(){
                 var table = layui.table;
                 var $ = layui.$;
                 table.render({
-                    elem: '#index-table'
+                    elem: '#new-table'
                     ,url:'/api/index'
                     ,limit: 15
                     ,method: 'post'
-                    ,where: {token: '[[${token}]]', pre_token: ""}
+                    ,where: {token: '[[${token}]]', pre_token: "", desc: "new"}
                     ,cellMinWidth: 100
                     ,limits: [10, 15]
                     ,cols: [

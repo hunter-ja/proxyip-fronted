@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
         <title>免费代理</title>
-        <link href="/layui/css/layui.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="//www.layuicdn.com/layui/css/layui.css" type="text/css" rel="stylesheet" media="screen,projection" />
         <link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
     </head>
     <body>
@@ -14,8 +14,8 @@
                 <li class="layui-nav-item logo" style="padding: 0 80px 0 0;"><a href="">THIS IS LOGO</a></li>
                 <li th:class="${nav == 'index' ? 'layui-nav-item layui-this' : 'layui-nav-item'}"><a href="/">首页</a></li>
                 <li th:class="${nav == 'search' ? 'layui-nav-item layui-this' : 'layui-nav-item'}"><a href="/search">搜索</a></li>
-                <li class="layui-nav-item"><a href="">最新入库</a></li>
-                <li class="layui-nav-item"><a href="">稳得一匹</a></li>
+                <li th:class="${nav == 'new' ? 'layui-nav-item layui-this' : 'layui-nav-item'}"><a href="/new">最新入库</a></li>
+                <li th:class="${nav == 'available' ? 'layui-nav-item layui-this' : 'layui-nav-item'}"><a href="/available">稳得一匹</a></li>
                 <li class="layui-nav-item"><a href="javascript:alert('服务器资源太宝贵，暂不开放');">代理检测</a></li>
                 <li class="layui-nav-item"><a href="javascript:alert('服务器资源太宝贵，暂不开放');">API接口</a></li>
             </ul>
@@ -28,7 +28,7 @@
         <div class="copyright">
             <p>© 2019  此处应有版权</p>
         </div>
-        <script src="/layui/layui.js"></script>
+        <script src="//www.layuicdn.com/layui/layui.js"></script>
         <script layout:fragment="customscript"></script>
     </body>
 </html>

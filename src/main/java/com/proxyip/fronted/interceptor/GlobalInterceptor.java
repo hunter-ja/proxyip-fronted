@@ -1,6 +1,7 @@
 package com.proxyip.fronted.interceptor;
 
 import com.proxyip.fronted.model.custom.Token;
+import com.proxyip.fronted.utils.Utils;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,7 +17,7 @@ public class GlobalInterceptor implements HandlerInterceptor {
                            @Nullable ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
             modelAndView.addObject("token",
-                    Token.toToken(request.getRemoteAddr(), request.getHeader("token")));
+                    Token.toToken(Utils.getIp(request), request.getParameter("token")));
         }
     }
 
