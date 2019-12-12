@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.proxyip</groupId>
 	<artifactId>fronted</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>fronted</name>
 	<description>代理IP展示</description>
 

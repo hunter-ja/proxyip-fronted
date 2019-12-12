@@ -8,20 +8,20 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Component
 public class AjaxInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if(!Token.isValid(request.getParameter("token"), Utils.getIp(request), request.getParameter("pre_token"))) {
-            try {
+        try {
+            if(!Token.isValid(request.getParameter("token"), Utils.getIp(request), request.getParameter("pre_token"))) {
                 response.setHeader("Content-Type", "application/json;charset=UTF-8");
                 response.getWriter().println(ApiResponse.error("Token 已失效请刷新页面"));
                 response.flushBuffer();
-            } catch (IOException e) {
-                e.printStackTrace();
+                return false;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
         return true;

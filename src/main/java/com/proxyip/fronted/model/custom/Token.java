@@ -120,7 +120,7 @@ public class Token {
             if(StringUtils.isEmpty(json)) {
                 return false;
             }
-            Gson gson = new Gson();
+            Gson gson = Utils.getGson();
             Token tokenModel = gson.fromJson(json, Token.class);
             if(tokenModel == null) {
                 return false;
@@ -148,6 +148,7 @@ public class Token {
             }
             return false;
         }catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -156,7 +157,7 @@ public class Token {
         try {
             token = URLDecoder.decode(token, "utf8");
             String json = AES.decryptBase64(token);
-            Gson gson = new Gson();
+            Gson gson = Utils.getGson();
             Token tokenModel = gson.fromJson(json, Token.class);
             return ip.equals(tokenModel.getIp());
         } catch (UnsupportedEncodingException e) {
