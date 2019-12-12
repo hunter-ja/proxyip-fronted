@@ -128,6 +128,9 @@ public class Token {
             if(tokenModel.isFirst) {
                 if(tokenModel.getExpireDate().after(new Date())
                         && ip.equals(tokenModel.getIp())) {
+                    if(tokenList.getTokens().size() > 100000) {
+                        tokenList.getTokens().clear();
+                    }
                     tokenList.getTokens().add(token);
                     return true;
                 }
@@ -136,6 +139,9 @@ public class Token {
                         && ip.equals(tokenModel.getIp())
                         && preToken.equals(tokenModel.getPreToken())
                         && isValid(tokenModel.getPreToken(), ip)) {
+                    if(tokenList.getTokens().size() > 100000) {
+                        tokenList.getTokens().clear();
+                    }
                     tokenList.getTokens().add(token);
                     return true;
                 }
